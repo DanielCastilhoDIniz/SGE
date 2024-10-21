@@ -32,6 +32,11 @@ RUN python -m venv /venv && \
   /venv/bin/pip install --upgrade pip --no-cache-dir && \
   /venv/bin/pip install -r /sgeapp/requirements.txt --no-cache-dir && \
   adduser --disabled-password --no-create-home duser && \
+  apk add --update --no-cache postgresql-client jpeg-dev && \
+  apk add --update --no-cache --virtual .tmp-build-deps \
+      build-base postgresql-dev musl-dev zlib zlib-dev linux-headers && \
+  rm -rf /tmp && \
+  apk del .tmp-build-deps && \
   mkdir -p /data/web/static && \
   mkdir -p /data/web/media && \
   chown -R duser:duser /venv && \
