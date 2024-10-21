@@ -22,6 +22,8 @@ WORKDIR /sgeapp
 # É a porta que vamos usar para o Django.
 EXPOSE 8000
 
+# Variável ARG para diferenciar entre ambientes
+ARG DEV=false
 
 # RUN executa comandos em um shell dentro do container para construir a imagem. 
 # O resultado da execução do comando é armazenado no sistema de arquivos da 
@@ -31,6 +33,9 @@ EXPOSE 8000
 RUN python -m venv /venv && \
   /venv/bin/pip install --upgrade pip --no-cache-dir && \
   /venv/bin/pip install -r /sgeapp/requirements.txt --no-cache-dir && \
+  if [ "$DEV" = "true" ]; then \
+        /venv/bin/pip install -r /sgeapp/requirements.dev.txt --no-cache-dir; \
+    fi && \
   adduser --disabled-password --no-create-home duser && \
   apk add --update --no-cache postgresql-client jpeg-dev && \
   apk add --update --no-cache --virtual .tmp-build-deps \
