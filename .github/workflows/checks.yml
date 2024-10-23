@@ -25,7 +25,7 @@ jobs:
           echo "API_KEY=abc123" >> dotenv_files/.env
 
       - name: Run Tests
-        run: docker compose run --rm sgeapp sh -c "python /sgeapp/manage.py  && python /sgeapp/manage.py test"
+        run: docker compose run --rm sgeapp sh -c "python /sgeapp/manage.py wait_for_db  && python /sgeapp/manage.py test"
 
       - name: Run Lint
         run: docker compose run --rm sgeapp sh -c "flake8"
